@@ -9,6 +9,9 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    permission:
+      id-token: write
+      contents: read
     steps:
       - name: Check out repository
         uses: actions/checkout@v3.6.0
