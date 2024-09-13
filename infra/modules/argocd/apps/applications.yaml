@@ -9,8 +9,8 @@ metadata:
 spec:
   project: default
   source:
-    path: dev/apps
-    repoURL: https://github.com/aminrj/10-gitops.git
+    path: container-ip/helm-chart
+    repoURL: https://github.com/sqe/azure-terraform-aks.git
     targetRevision: HEAD
   destination:
     namespace: default
