@@ -23,6 +23,7 @@ terraform {
 
 # Configure the Microsoft Azure Provider
 provider "azurerm" {
+  use_oidc = true
   features {}
   subscription_id = var.ARM_SUBSCRIPTION_ID
 }

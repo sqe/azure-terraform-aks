@@ -14,9 +14,12 @@ jobs:
         uses: actions/checkout@v3.6.0
 
       - name: 'Log into Azure using github secret AZURE_CREDENTIALS'
-        uses: Azure/login@v1
+        uses: azure/login@v2
         with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          # creds: ${{ secrets.AZURE_CREDENTIALS }}
+          client-id: ${{ secrets.ARM_CLIENT_ID}}
+          tenand-id: "{{ secrets.ARM_TENANT_ID}}"
+          subscription-id: "{{ secrets.ARM_SUBSCRIPTION_ID}}"
           enable-AzPSSession: true
 
       - name: 'Setup Terraform'
@@ -25,6 +28,11 @@ jobs:
         run: |
           export TF_VAR_clientSecret="{{ secrets.ARM_CLIENT_SECRET}}"
           export TF_VAR_appId="{{ secrets.ARM_CLIENT_ID}}"
+          export ARM_SUBSCRIPTION_ID="{{ secrets.ARM_SUBSCRIPTION_ID}}"
+          export ARM_TENANT_ID="{{ secrets.ARM_TENANT_ID}}"
+          export ARM_CLIENT_ID="{{ secrets.ARM_CLIENT_ID}}"
+          export ARM_CLIENT_SECRET="{{ secrets.ARM_CLIENT_SECRET}}"
+
 
           cd infra/environments/aera-hw-dev-001/
           terraform init
