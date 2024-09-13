@@ -1,0 +1,39 @@
+
+name: Authenticate Azure
+on:
+  workflow_dispatch:
+  push:
+    #branches:
+     # - master
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3.6.0
+
+      - name: 'Log into Azure using github secret AZURE_CREDENTIALS'
+        uses: Azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          enable-AzPSSession: true
+
+      - name: 'Setup Terraform'
+        uses: hashicorp/setup-terraform@v3  
+      - name: 'Terraform Init'
+        run: |
+          export TF_VAR_clientSecret="{{ secrets.ARM_CLIENT_SECRET}}"
+          export TF_VAR_appId="{{ secrets.ARM_CLIENT_ID}}"
+
+          cd infra/environments/aera-hw-dev-001/
+          terraform init
+
+      - name: 'Terraform Plan'
+        run: |
+          export TF_VAR_clientSecret="{{ secrets.ARM_CLIENT_SECRET}}"
+          export TF_VAR_appId="{{ secrets.ARM_CLIENT_ID}}"
+
+          cd infra/environments/aera-hw-dev-001/
+          terraform plan -var-file=terraform.tfvars
+          
